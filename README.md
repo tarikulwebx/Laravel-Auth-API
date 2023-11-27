@@ -13,7 +13,7 @@ User authentication (Registration, Login, Logout) example of Laravel API using S
 
 ## Setup
 
-#### Step 1:
+### Step 1:
 
 Clone the repository in your local directory
 
@@ -21,11 +21,11 @@ Clone the repository in your local directory
 git clone https://github.com/tarikulwebx/Laravel-Auth-API.git
 ```
 
-#### Step 2:
+### Step 2:
 
-Create .env file in your project root directory and copy all liles of codes from .env.example to .env.
+Create .env file in your project root directory and copy all lines of codes from .env.example to .env.
 
-Change following database credentails according to your local MySQL Database.
+Change following database credentials according to your local MySQL Database.
 
 ```
 DB_HOST=127.0.0.1
@@ -35,7 +35,7 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-#### Step 3:
+### Step 3:
 
 Install composer dependencies
 
@@ -43,7 +43,7 @@ Install composer dependencies
 composer install
 ```
 
-#### Step 4:
+### Step 4:
 
 Generate App_key for the Laravel Api (.env file)
 
@@ -51,9 +51,9 @@ Generate App_key for the Laravel Api (.env file)
 php artisan key:generate
 ```
 
-#### Step 5:
+### Step 5:
 
-Migrate database database
+Migrate database
 
 ```
 php artisan migrate
@@ -69,7 +69,7 @@ php artisan serve
 
 ### Step 7:
 
-Use Postman to test the API for the register, login and logout process. The working routes are-
+Use Postman to test the API for the register, login and logout process. The working API routes are-
 Register
 
 ```
