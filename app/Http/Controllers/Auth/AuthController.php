@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -121,5 +122,35 @@ class AuthController extends Controller
             'token' => $token,
             'user' => $user,
         ])->cookie('token', $token, $expirationTime);
+    }
+
+
+    /**
+     * User logout method
+     *
+     * @logout
+     * @param Request $request
+     *
+     * @return Json
+     */
+    public function logout(Request $request)
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json([
+                "error" => "User not found!"
+            ], 404);
+        }
+
+        // delete the teken
+        $request->user()->currentAccessToken()->delete();
+
+        // Delete expired tokens also
+        $user->tokens()->where('expires_at', '<', Carbon::now())->delete();
+
+        return response()->json([
+            "message" => "Logged out successfully!"
+        ], 200);
     }
 }
