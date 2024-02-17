@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Helpers\Helper;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,9 +19,8 @@ class UserController extends Controller
             ], 404);
         }
 
-        return response()->json([
-            "message" => "User found successfully!",
-            "user" => $user,
-        ], 200);
+        $userResource = new UserResource($user);
+
+        return Helper::successResponse("User found successfully!", $userResource, 200);
     }
 }

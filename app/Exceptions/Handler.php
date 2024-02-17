@@ -2,7 +2,12 @@
 
 namespace App\Exceptions;
 
+use App\Http\Helpers\Helper;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\UnauthorizedException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -25,6 +30,31 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (Throwable $e, $request) {
+
+            // Default Middleware Exception (Spatie\Permission)
+            if ($e instanceof AccessDeniedHttpException) {
+                return Helper::errorResponse("You do not have the required authorization.", [], 403);
+            }
+
+            // Authentication Exception (Sanctum)
+            if ($e instanceof AuthenticationException && $request->expectsJson()) {
+                return
+                    Helper::errorResponse("You are unauthenticated!", [], 401);
+            }
+
+            // Package Middleware Exception (Spatie\Permission)
+            if ($e instanceof UnauthorizedException) {
+                return Helper::errorResponse("You do not have the right roles.", [], 403);
+            }
+
+            // RouteNotFoundException
+            if ($e instanceof RouteNotFoundException) {
+                return
+                    Helper::errorResponse("Route not properly made!", [], 401);
+            }
         });
     }
 }
